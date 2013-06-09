@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+
+  "name": "AlloSoft Clipboard Access",
+  "version": "1.50",
+  "description": "An extension that pages can use to access the clipboard when using Chrome.",
+  "homepage_url": "http://www.allos.gr/asClickToCopy.html",
+  "minimum_chrome_version" : "22.0.0.0",
+
+  "permissions": [
+    "clipboardWrite",
+    "clipboardRead",
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+  ],
+
+  "background": {
+    "page": "background.html"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["\u003Call_urls\u003E"],
+      "js": ["docopy.js"],
+      "run_at": "document_start"
+    }
+  ]
+
+}

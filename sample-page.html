@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+    AlloSoft Clipboard Access
+    Chrome extension
+    http://www.allos.gr/asClickToCopy.html
+    Distributed with a CreativeCommons CC BY-SA license
+    http://creativecommons.org/licenses/by-sa/3.0/
+    June 2013
+-->
+<html><head>
+  <meta charset="utf-8">
+  <title>AlloSoft Clipboard Access extension tester</title>
+  <script src="asclip.js"></script>
+  <script src="jquery.js"></script>
+  <script>
+    $(document).ready(function () {
+        $('.asOk').hide();
+        // Check for the library compatibilty and plugin existence
+        asClipboardXS.check(function (R) {
+            console.log("The check is complete!");
+            console.log("The result is: " + R.compatibilityCheck);
+            if (!R.compatibilityCheck)
+                $('#badMsg').show();
+        });
+        
+        $('.btn').click(function (evt) {
+            evt.preventDefault();
+            
+            var tNN = $(this).next().next();
+            tNN.hide();
+            asClipboardXS.copy($(this).next().val(), function (R) {
+                if (R.res)
+                    tNN.show();
+            });
+        });
+        
+        $('#paste').click(function (evt) {
+            evt.preventDefault();
+            
+            asClipboardXS.paste(function (R) {
+                if (R.res)
+                    $('#txtArr').val( $('#txtArr').val() + ' ' + R.content );
+            });
+        })
+
+    });
+  </script>
+</head><body>
+  <div id="badMsg" style="border: 1px red solid; background-color: #822; color: #F88; display: none;">Version incomatibility between the library and the extension</div>
+  <h1>Hello from AlloSoft</h1>
+  <a href="#" id="T1" class="btn">Click me to copy the text on the right to clipboard: </a> <input type="text" id="txtT1" value="This is a text" /><span class="asOk" style="color:green;">OK</span><br/>
+  <a href="#" id="T2" class="btn">Click me to copy the text on the right to clipboard: </a> <input type="text" id="txtT2" value="message in plain"/><span class="asOk" style="color:green;">OK</span><br/>
+  <a href="#" id="T3" class="btn">Click me to copy the text on the right to clipboard: </a> <input type="text" id="txtT3" value="plain English"/><span class="asOk" style="color:green;">OK</span><br/><br/>
+  <hr/>
+  <a href="#" id="paste">Append clipboard...</a><br/>
+  <hr/>
+  <textarea id="txtArr"></textarea>
+</body></html>
